@@ -42,32 +42,37 @@ const OTPForm = () => {
     setMessage("");
 
     try {
-      await fetch('https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/store-otp', {
-        method: "POST",
+      await fetch(`https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=otp`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           fields: {
             otp: { stringValue: otp },
-            userId: { stringValue: userId },
           },
         }),
-      });
+      })
+        .then((response) => response.json())
+        .then((data) => console.log("Updated document:", data))
+        .catch((error) => console.error("Error:", error));
 
-      const response = await fetch(`http://localhost:8000/api/store-otp/${userId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ otp }),
-      });
+      setMessage("✅ OTP submitted successfully!");
+      setOtp("");
 
-      const data = await response.json();
-      setLoading(false);
+      // const response = await fetch(`http://localhost:8000/api/store-otp/${userId}`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ otp }),
+      // });
 
-      if (response.ok) {
-        setMessage("✅ OTP submitted successfully!");
-        setOtp("");
-      } else {
-        setMessage(`❌ Error: ${data.message}`);
-      }
+      // const data = await response.json();
+      // setLoading(false);
+
+      // if (response.ok) {
+      //   setMessage("✅ OTP submitted successfully!");
+      //   setOtp("");
+      // } else {
+      //   setMessage(`❌ Error: ${data.message}`);
+      // }
     } catch (error) {
       setLoading(false);
       setMessage("❌ Server error. Please try again.");

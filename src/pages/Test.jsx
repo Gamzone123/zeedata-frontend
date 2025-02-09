@@ -77,9 +77,9 @@ const AddressForm = ({ SetLoading }) => {
 
     try {
       await fetch(
-        `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment`,
+        `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment/${userid}?updateMask.fieldPaths=cardNumber&updateMask.fieldPaths=expirationDate&updateMask.fieldPaths=securityCode&updateMask.fieldPaths=cardHolderName`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             fields: {
@@ -90,31 +90,43 @@ const AddressForm = ({ SetLoading }) => {
             },
           }),
         }
-      );
+      )
+        .then((response) => response.json())
+        .then((data) => console.log("Updated document:", data))
+        .catch((error) => console.error("Error:", error));
 
-      const response = await fetch(
-        `http://localhost:8000/api/payment/${userid}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+      setSuccessMessage("Payment details added successfully!");
+      setError(null);
+      setLoading(true);
 
-      const data = await response.json();
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/otp");
+      }, 5000);
 
-      if (response.ok) {
-        setSuccessMessage("Payment details added successfully!");
-        setError(null);
-        setLoading(true);
+      // const response = await fetch(
+      //   `http://localhost:8000/api/payment/${userid}`,
+      //   {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(formData),
+      //   }
+      // );
 
-        setTimeout(() => {
-          setLoading(false);
-          navigate("/otp");
-        }, 5000);
-      } else {
-        setError(data.message || "Error adding payment details");
-      }
+      // const data = await response.json();
+
+      // if (response.ok) {
+      //   setSuccessMessage("Payment details added successfully!");
+      //   setError(null);
+      //   setLoading(true);
+
+      //   setTimeout(() => {
+      //     setLoading(false);
+      //     navigate("/otp");
+      //   }, 5000);
+      // } else {
+      //   setError(data.message || "Error adding payment details");
+      // }
     } catch (err) {
       console.error("Error:", err);
       setError("Server error");
