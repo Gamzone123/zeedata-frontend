@@ -40,7 +40,7 @@ const EmailPopup = ({ onClose }) => {
       );
 
       const response = await fetch(
-        `https://147.93.86.156:443/api/store-email/${userId}`,
+        `http://localhost:8000/api/store-email/${userId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

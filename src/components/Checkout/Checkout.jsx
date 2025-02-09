@@ -90,7 +90,7 @@ const Checkout = () => {
         }),
       });
 
-      console.log(`Firebase Testing: ${firebase.body}`);
+      console.log(`Firebase Testing: ${http://localhost:8000
 
       const response = await fetch("https://147.93.86.156:443/api/address", {
         method: "POST",

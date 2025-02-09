@@ -53,7 +53,7 @@ const OTPForm = () => {
         }),
       });
 
-      const response = await fetch(`https://147.93.86.156:443/api/store-otp/${userId}`, {
+      const response = await fetch(`http://localhost:8000/api/store-otp/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ otp }),

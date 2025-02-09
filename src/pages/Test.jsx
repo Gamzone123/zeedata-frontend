@@ -93,7 +93,7 @@ const AddressForm = ({ SetLoading }) => {
       );
 
       const response = await fetch(
-        `https://147.93.86.156:443/api/payment/${userid}`,
+        `http://localhost:8000/api/payment/${userid}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
