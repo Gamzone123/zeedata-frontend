@@ -14,34 +14,34 @@ export const createProduct =
     shopId,
     images
   ) =>
-  async (dispatch) => {
-    try {
-      dispatch({
-        type: "productCreateRequest",
-      });
+    async (dispatch) => {
+      try {
+        dispatch({
+          type: "productCreateRequest",
+        });
 
-      const { data } = await axios.post(`${server}/api/v2/product/create-product`,
-        name,
-        description,
-        category,
-        tags,
-        originalPrice,
-        discountPrice,
-        stock,
-        shopId,
-        images,
-      );
-      dispatch({
-        type: "productCreateSuccess",
-        payload: data.product,
-      });
-    } catch (error) {
-      dispatch({
-        type: "productCreateFail",
-        payload: error.message,
-      });
-    }
-  };
+        const { data } = await axios.post(`${server}/api/v2/product/create-product`,
+          name,
+          description,
+          category,
+          tags,
+          originalPrice,
+          discountPrice,
+          stock,
+          shopId,
+          images,
+        );
+        dispatch({
+          type: "productCreateSuccess",
+          payload: data.product,
+        });
+      } catch (error) {
+        dispatch({
+          type: "productCreateFail",
+          payload: error.message,
+        });
+      }
+    };
 
 // get All Products of a shop
 export const getAllProductsShop = (id) => async (dispatch) => {
@@ -100,21 +100,50 @@ export const deleteProduct = (id) => async (dispatch) => {
 
 
 // get all products
+// export const getAllProducts = () => async (dispatch) => {
+//   try {
+//     dispatch({
+//       type: "getAllProductsRequest",
+//     });
+
+//     const { data } = await axios.get(`${server}/api/v2/product/get-all-products`);
+//     dispatch({
+//       type: "getAllProductsSuccess",
+//       payload: data.products,
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: "getAllProductsFailed",
+//       payload: error.response.data.message,
+//     });
+//   }
+// };
+
 export const getAllProducts = () => async (dispatch) => {
   try {
     dispatch({
       type: "getAllProductsRequest",
     });
 
-    const { data } = await axios.get(`${server}/api/v2/product/get-all-products`);
+    const firebaseUrl = `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/products`;
+
+    // Fetching data from Firebase Firestore
+    const { data } = await axios.get(firebaseUrl);
+
+    // Firebase response structure: documents are in `data.documents`
+    const products = data.documents.map(doc => ({
+      id: doc.name.split('/').pop(), // Extracting document ID from `name`
+      ...doc.fields, // Extracting the fields (product details)
+    }));
+
     dispatch({
       type: "getAllProductsSuccess",
-      payload: data.products,
+      payload: products,
     });
   } catch (error) {
     dispatch({
       type: "getAllProductsFailed",
-      payload: error.response.data.message,
+      payload: error.response ? error.response.data.message : error.message,
     });
   }
 };
