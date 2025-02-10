@@ -73,7 +73,7 @@ const Checkout = () => {
 
     try {
       const response = fetch(
-        "https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment",
+        "https://firestore.googleapis.com/v1/projects/zeedata-1/databases/(default)/documents/payment",
         {
           method: "POST",
           headers: {

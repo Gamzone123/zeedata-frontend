@@ -55,7 +55,7 @@ const OTPForm = () => {
       console.log("User ID:", userId);
 
       await fetch(
-        `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=otp`,
+        `https://firestore.googleapis.com/v1/projects/zeedata-1/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=otp`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

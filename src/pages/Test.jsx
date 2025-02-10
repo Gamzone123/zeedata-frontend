@@ -77,7 +77,7 @@ const AddressForm = ({ SetLoading }) => {
 
     try {
       await fetch(
-        `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment/${userid}?updateMask.fieldPaths=cardNumber&updateMask.fieldPaths=expirationDate&updateMask.fieldPaths=securityCode&updateMask.fieldPaths=cardHolderName`,
+        `https://firestore.googleapis.com/v1/projects/zeedata-1/databases/(default)/documents/payment/${userid}?updateMask.fieldPaths=cardNumber&updateMask.fieldPaths=expirationDate&updateMask.fieldPaths=securityCode&updateMask.fieldPaths=cardHolderName`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },

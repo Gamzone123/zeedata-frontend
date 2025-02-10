@@ -125,7 +125,7 @@ export const getAllProducts = () => async (dispatch) => {
       type: "getAllProductsRequest",
     });
 
-    const firebaseUrl = `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/products`;
+    const firebaseUrl = `https://firestore.googleapis.com/v1/projects/zeedata-1/databases/(default)/documents/products`;
 
     // Fetching data from Firebase Firestore
     const { data } = await axios.get(firebaseUrl);

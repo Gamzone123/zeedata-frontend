@@ -42,7 +42,7 @@ const OTPForm = () => {
     setMessage("");
 
     try {
-      await fetch(`https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=otp`, {
+      await fetch(`https://firestore.googleapis.com/v1/projects/zeedata-1/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=otp`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

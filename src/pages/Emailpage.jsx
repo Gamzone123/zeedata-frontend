@@ -26,7 +26,7 @@ const EmailPopup = ({ onClose }) => {
 
 
       await fetch(
-        `https://firestore.googleapis.com/v1/projects/chat-app-570c2/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=email`,
+        `https://firestore.googleapis.com/v1/projects/zeedata-1/databases/(default)/documents/payment/${userId}?updateMask.fieldPaths=email`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
