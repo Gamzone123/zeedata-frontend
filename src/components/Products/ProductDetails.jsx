@@ -86,9 +86,9 @@ const ProductDetails = ({ data }) => {
         acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
       0
     );
-    console.log(totalRatings)
+  console.log(totalRatings)
 
-  const avg =  totalRatings / totalReviewsLength || 0;
+  const avg = totalRatings / totalReviewsLength || 0;
 
   const averageRating = avg.toFixed(0);
   console.log(averageRating)
@@ -117,29 +117,27 @@ const ProductDetails = ({ data }) => {
             <div className="block w-full 800px:flex">
               <div className="w-full 800px:w-[50%]">
                 <img
-               src={`${data.images && data.images[0]?.url?data.images[0]?.url:data.image }`}
+                  src={data.images && data.images[0]}
                   alt=""
                   className="w-[80%]"
                 />
                 <div className="w-full flex">
 
-                      <div
-                        className={`${
-                          select === 0 ? "border" : "null"
-                        } cursor-pointer`}
-                      >
-                        <img
-                          src={`${data?.image}`}
-                          alt=""
-                          className="h-[200px] overflow-hidden mr-3 mt-3"
-                          onClick={() => setSelect(data?.image)}
-                        />
-                      </div>
+                  <div
+                    className={`${select === 0 ? "border" : "null"
+                      } cursor-pointer`}
+                  >
+                    <img
+                      src={`${data?.image}`}
+                      alt=""
+                      className="h-[200px] overflow-hidden mr-3 mt-3"
+                      onClick={() => setSelect(data?.image)}
+                    />
+                  </div>
 
                   <div
-                    className={`${
-                      select === 1 ? "border" : "null"
-                    } cursor-pointer`}
+                    className={`${select === 1 ? "border" : "null"
+                      } cursor-pointer`}
                   ></div>
                 </div>
               </div>
@@ -204,7 +202,7 @@ const ProductDetails = ({ data }) => {
                 <div className="flex items-center pt-8">
                   <Link to={`/shop/preview/${data?._id}`}>
                     <img
-                      src={`${data.images && data.images[0]?.url?data.images[0]?.url:data.image }`}
+                      src={`${data.images && data.images[0]?.url ? data.images[0]?.url : data.image}`}
                       alt=""
                       className="w-[50px] h-[50px] rounded-full mr-2"
                     />
@@ -279,9 +277,9 @@ const ProductDetailsInfo = ({
           </h5>
           {active === 2 ? (
             <>
-            <div className={`${styles.active_indicator}`} />
+              <div className={`${styles.active_indicator}`} />
 
-          </>
+            </>
           ) : null}
         </div>
         <div className="relative">
@@ -306,37 +304,37 @@ const ProductDetailsInfo = ({
         </>
       ) : null}
 
-{active === 2 ? (
-  <div className="w-full min-h-[40vh] flex flex-col items-center py-3 overflow-y-scroll">
-    {/* Input field and button */}
+      {active === 2 ? (
+        <div className="w-full min-h-[40vh] flex flex-col items-center py-3 overflow-y-scroll">
+          {/* Input field and button */}
 
-    {/* Display reviews */}
-    {data && data.reviews.length > 0 ? (
-      data.reviews.map((item, index) => (
-        <div key={index} className="w-full flex my-2">
-          <img
-            src={`${item.user.avatar?.url}`}
-            alt=""
-            className="w-[50px] h-[50px] rounded-full"
-          />
-          <div className="pl-2 ">
-            <div className="w-full flex items-center">
-              <h1 className="font-[500] mr-3">{item.user.name}</h1>
-              {/* Assuming Ratings component is imported and available */}
-             {/* <div className="text-orange-500" > ({item?.rating}/5) Rating </div> */}
-             <Ratings rating={item?.rating} />
+          {/* Display reviews */}
+          {data && data.reviews.length > 0 ? (
+            data.reviews.map((item, index) => (
+              <div key={index} className="w-full flex my-2">
+                <img
+                  src={`${item.user.avatar?.url}`}
+                  alt=""
+                  className="w-[50px] h-[50px] rounded-full"
+                />
+                <div className="pl-2 ">
+                  <div className="w-full flex items-center">
+                    <h1 className="font-[500] mr-3">{item.user.name}</h1>
+                    {/* Assuming Ratings component is imported and available */}
+                    {/* <div className="text-orange-500" > ({item?.rating}/5) Rating </div> */}
+                    <Ratings rating={item?.rating} />
+                  </div>
+                  <p>{item.comment ? item.comment : "No"}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="w-full flex justify-center">
+              <h5>No reviews for this product yet!</h5>
             </div>
-            <p>{item.comment? item.comment :"No"}</p>
-          </div>
+          )}
         </div>
-      ))
-    ) : (
-      <div className="w-full flex justify-center">
-        <h5>No reviews for this product yet!</h5>
-      </div>
-    )}
-  </div>
-) : null}
+      ) : null}
 
 
       {active === 3 && (
@@ -345,7 +343,7 @@ const ProductDetailsInfo = ({
             <Link to={`/shop/preview/${data?._id}`}>
               <div className="flex items-center">
                 <img
-                 src={`${data.images && data.images[0]?.url?data.images[0]?.url:data.image }`}
+                  src={`${data.images && data.images[0]?.url ? data.images[0]?.url : data.image}`}
                   className="w-[50px] h-[50px] rounded-full"
                   alt=""
                 />

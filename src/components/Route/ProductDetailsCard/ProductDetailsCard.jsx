@@ -16,8 +16,8 @@ import {
   removeFromWishlist,
 } from "../../../redux/actions/wishlist";
 import { server } from "../../../server";
-import axios  from "axios";
-import {useNavigate} from "react-router-dom"
+import axios from "axios";
+import { useNavigate } from "react-router-dom"
 const ProductDetailsCard = ({ setOpen, data }) => {
   // console.log(data)
   const { cart } = useSelector((state) => state.cart);
@@ -28,7 +28,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const navigate = useNavigate();
-// console.log(data)
+  // console.log(data)
   const decrementCount = () => {
     if (count > 1) {
       setCount(count - 1);
@@ -65,7 +65,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
     dispatch(addToWishlist(data));
   };
 
-  
+
   const handlecreateConversation = async () => {
     try {
       const response = await axios.post(`${server}/api/v2/conversation/create-new-conversation`, {
@@ -95,11 +95,11 @@ const ProductDetailsCard = ({ setOpen, data }) => {
 
             <div className="block w-full 800px:flex">
               <div className="w-full 800px:w-[50%]">
-                <img src={`${data.images && data.images[0]?.url?data.images[0]?.url:data.image }`} alt="" />
+                <img src={data.images && data.images[0]} alt="" />
                 <div className="flex">
                   <Link to="" className="flex">
                     <img
-                      src={`${data.images && data.images[0]?.url?data.images[0]?.url:data.image }`}
+                      src={data.images && data.images[0]}
                       alt=""
                       className="w-[50px] h-[50px] rounded-full mr-2 mt-3"
                     />
@@ -115,10 +115,10 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                   className={`${styles.button} bg-[#000] mt-4 rounded-[4px] h-11`}
                 >
                   <span onClick={handlecreateConversation} className="text-[#fff] flex items-center">
-                    Send Message <AiOutlineMessage  className="ml-1" />
+                    Send Message <AiOutlineMessage className="ml-1" />
                   </span>
                 </div>
-           
+
               </div>
 
               <div className="w-full 800px:w-[50%] pt-5 pl-[5px] pr-[5px]">

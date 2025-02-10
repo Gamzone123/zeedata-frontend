@@ -130,7 +130,7 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
           </div>
         </div>
         <img
-          src={`${data?.images && data?.images[0]?.url ? data?.images[0]?.url : data?.image}`}
+          src={data.images && data.images[0]}
           alt=""
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />
@@ -140,7 +140,7 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
             {data?.discountPrice} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
-            PKR{totalPrice} 
+            PKR{totalPrice}
           </h4>
         </div>
         <RxCross1
